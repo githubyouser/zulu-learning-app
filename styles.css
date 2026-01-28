@@ -149,7 +149,7 @@ body {
 .card__answer {
   font-size: 1.2rem;
   font-weight: 800;
-  color: var(--muted);
+  color: var(--success);
   min-height: 32px;
 }
 
