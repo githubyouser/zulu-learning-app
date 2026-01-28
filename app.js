@@ -174,8 +174,8 @@ const showNextCard = () => {
   const tag = next.interval === 0 ? "New" : "Review";
   setCardState({
     tag,
-    prompt: next.english,
-    answer: next.zulu,
+    prompt: next.zulu,
+    answer: next.english,
     showAnswer: false,
   });
   updateProgress();
@@ -219,8 +219,8 @@ const handleReveal = () => {
   if (!state.currentCard) return;
   setCardState({
     tag: state.currentCard.interval === 0 ? "New" : "Review",
-    prompt: state.currentCard.english,
-    answer: state.currentCard.zulu,
+    prompt: state.currentCard.zulu,
+    answer: state.currentCard.english,
     showAnswer: true,
   });
 };
