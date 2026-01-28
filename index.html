@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zulu Bloom</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <div class="brand">
+          <span class="brand__icon">🌱</span>
+          <div>
+            <p class="brand__title">Zulu Bloom</p>
+            <p class="brand__subtitle">Daily guided practice</p>
+          </div>
+        </div>
+        <div class="streak">
+          <p class="streak__label">Review streak</p>
+          <p class="streak__value" id="streakValue">0 days</p>
+        </div>
+      </header>
+
+      <main>
+        <section class="progress">
+          <div class="progress__bar">
+            <div class="progress__fill" id="progressFill"></div>
+          </div>
+          <div class="progress__meta">
+            <p id="progressLabel">0 / 0 reviewed</p>
+            <p id="sessionLabel">Ready for your next review.</p>
+          </div>
+        </section>
+
+        <section class="card" id="flashcard">
+          <div class="card__tag" id="cardTag">New</div>
+          <p class="card__prompt" id="cardPrompt">Tap start to begin</p>
+          <button class="card__reveal" id="revealButton">Show English</button>
+          <div class="card__answer" id="cardAnswer">—</div>
+        </section>
+
+        <section class="actions">
+          <button class="pill pill--secondary" id="againButton" disabled>
+            Need more practice
+          </button>
+          <button class="pill pill--primary" id="goodButton" disabled>
+            Got it
+          </button>
+          <button class="pill pill--ghost" id="nextButton">Start session</button>
+        </section>
+
+        <section class="panel">
+          <h2>Build your word bank</h2>
+          <p>
+            Add new English/Zulu pairs anytime. These get saved locally so you can
+            keep growing your practice list.
+          </p>
+          <form id="pairForm" class="pair-form">
+            <label>
+              English
+              <input type="text" id="englishInput" placeholder="Good morning" required />
+            </label>
+            <label>
+              Zulu
+              <input type="text" id="zuluInput" placeholder="Sawubona" required />
+            </label>
+            <button class="pill pill--primary" type="submit">Add pair</button>
+          </form>
+          <details class="pair-list">
+            <summary>Current pairs</summary>
+            <ul id="pairList"></ul>
+          </details>
+          <details class="pair-import">
+            <summary>Bulk add pairs</summary>
+            <p>Paste pairs as <strong>English = Zulu</strong>, one per line.</p>
+            <textarea id="bulkInput" rows="4" placeholder="Thank you = Ngiyabonga"></textarea>
+            <button class="pill pill--secondary" id="bulkAddButton">Add bulk pairs</button>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
