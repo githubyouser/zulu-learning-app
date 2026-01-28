@@ -1,0 +1,270 @@
+:root {
+  color-scheme: light;
+  --background: #f7f6fb;
+  --surface: #ffffff;
+  --primary: #4d63ff;
+  --primary-dark: #3b4bd6;
+  --secondary: #f2f2ff;
+  --accent: #ffcf58;
+  --text: #1f1f30;
+  --muted: #6f6f85;
+  --success: #2fb676;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Nunito", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand__icon {
+  font-size: 2.2rem;
+}
+
+.brand__title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.brand__subtitle {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.streak {
+  background: var(--surface);
+  padding: 10px 14px;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(73, 66, 130, 0.08);
+  text-align: right;
+}
+
+.streak__label {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.streak__value {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.progress {
+  margin-bottom: 20px;
+}
+
+.progress__bar {
+  background: var(--secondary);
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress__fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.3s ease;
+}
+
+.progress__meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 28px 22px;
+  box-shadow: 0 18px 40px rgba(73, 66, 130, 0.12);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card__tag {
+  display: inline-block;
+  background: var(--secondary);
+  color: var(--primary-dark);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.card__prompt {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.card__reveal {
+  background: var(--secondary);
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.card__answer {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--success);
+  min-height: 32px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.pill {
+  border: none;
+  border-radius: 18px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pill:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pill--primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.pill--secondary {
+  background: var(--secondary);
+  color: var(--primary-dark);
+}
+
+.pill--ghost {
+  grid-column: span 2;
+  background: transparent;
+  color: var(--muted);
+  border: 1px dashed var(--secondary);
+}
+
+.panel {
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 14px 36px rgba(73, 66, 130, 0.08);
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.panel p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.pair-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pair-form label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+  display: grid;
+  gap: 6px;
+}
+
+.pair-form input,
+.pair-import textarea {
+  border-radius: 14px;
+  border: 1px solid #e3e3ef;
+  padding: 10px 12px;
+  font-size: 1rem;
+}
+
+.pair-list,
+.pair-import {
+  margin-top: 16px;
+}
+
+.pair-list summary,
+.pair-import summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+#pairList {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 8px;
+}
+
+#pairList li {
+  background: var(--secondary);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 420px) {
+  .app {
+    padding: 20px 16px 40px;
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+  }
+
+  .pill--ghost {
+    grid-column: span 1;
+  }
+}
