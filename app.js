@@ -1,14 +1,6 @@
 const STORAGE_KEY = "zulu-bloom-pairs";
 const STREAK_KEY = "zulu-bloom-streak";
 
-const defaultPairs = [
-  { english: "Hello", zulu: "Sawubona" },
-  { english: "How are you?", zulu: "Unjani?" },
-  { english: "Thank you", zulu: "Ngiyabonga" },
-  { english: "Please", zulu: "Ngiyacela" },
-  { english: "Good night", zulu: "Ulale kahle" },
-];
-
 const state = {
   pairs: [],
   sessionQueue: [],
@@ -40,7 +32,38 @@ const elements = {
 
 const todayISO = () => new Date().toISOString().split("T")[0];
 
-const loadPairs = () => {
+const fetchDefaultPairs = async () => {
+  try {
+    const response = await fetch("data/zulu-english-pairs.json", {
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to load defaults: ${response.status}`);
+    }
+    const data = await response.json();
+    if (!Array.isArray(data)) {
+      throw new Error("Default pairs must be an array.");
+    }
+    return data
+      .filter(
+        (pair) =>
+          pair &&
+          typeof pair.english === "string" &&
+          typeof pair.zulu === "string" &&
+          pair.english.trim() &&
+          pair.zulu.trim(),
+      )
+      .map((pair) => ({
+        english: pair.english.trim(),
+        zulu: pair.zulu.trim(),
+      }));
+  } catch (error) {
+    console.warn("Unable to load default pairs.", error);
+    return [];
+  }
+};
+
+const loadPairs = async () => {
   const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
   const enriched = saved.map((pair) => ({
     ...pair,
@@ -49,9 +72,14 @@ const loadPairs = () => {
     due: pair.due ?? Date.now(),
   }));
 
-  const existingEnglish = new Set(enriched.map((pair) => pair.english));
+  const defaultPairs = await fetchDefaultPairs();
+  const existingKeys = new Set(
+    enriched.map((pair) => `${pair.english}|||${pair.zulu}`),
+  );
   const seeded = defaultPairs
-    .filter((pair) => !existingEnglish.has(pair.english))
+    .filter(
+      (pair) => !existingKeys.has(`${pair.english}|||${pair.zulu}`),
+    )
     .map((pair) => ({
       ...pair,
       id: crypto.randomUUID(),
@@ -295,8 +323,8 @@ const handleExport = () => {
   }.`;
 };
 
-const init = () => {
-  loadPairs();
+const init = async () => {
+  await loadPairs();
   renderPairList();
   renderStreak();
   scheduleSession();
