@@ -9,7 +9,30 @@
   --text: #1f1f30;
   --muted: #6f6f85;
   --success: #2fb676;
+  --border: #e3e3ef;
+  --shadow-strong: 0 18px 40px rgba(73, 66, 130, 0.12);
+  --shadow-soft: 0 14px 36px rgba(73, 66, 130, 0.08);
+  --shadow-card: 0 10px 24px rgba(73, 66, 130, 0.08);
   font-size: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --background: #14141c;
+    --surface: #1c1c26;
+    --primary: #7c8bff;
+    --primary-dark: #a0aaff;
+    --secondary: #2a2a3b;
+    --accent: #ffd479;
+    --text: #f5f4ff;
+    --muted: #a2a0b8;
+    --success: #49d191;
+    --border: #2f2f44;
+    --shadow-strong: 0 18px 40px rgba(6, 6, 12, 0.6);
+    --shadow-soft: 0 14px 36px rgba(6, 6, 12, 0.45);
+    --shadow-card: 0 10px 24px rgba(6, 6, 12, 0.5);
+  }
 }
 
 * {
@@ -64,7 +87,7 @@ body {
   background: var(--surface);
   padding: 10px 14px;
   border-radius: 14px;
-  box-shadow: 0 10px 24px rgba(73, 66, 130, 0.08);
+  box-shadow: var(--shadow-card);
   text-align: right;
 }
 
@@ -112,7 +135,7 @@ body {
   background: var(--surface);
   border-radius: 24px;
   padding: 28px 22px;
-  box-shadow: 0 18px 40px rgba(73, 66, 130, 0.12);
+  box-shadow: var(--shadow-strong);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -195,7 +218,7 @@ body {
   background: var(--surface);
   border-radius: 24px;
   padding: 24px;
-  box-shadow: 0 14px 36px rgba(73, 66, 130, 0.08);
+  box-shadow: var(--shadow-soft);
 }
 
 .panel h2 {
@@ -224,9 +247,16 @@ body {
 .pair-form input,
 .pair-import textarea {
   border-radius: 14px;
-  border: 1px solid #e3e3ef;
+  border: 1px solid var(--border);
   padding: 10px 12px;
   font-size: 1rem;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.pair-form input::placeholder,
+.pair-import textarea::placeholder {
+  color: var(--muted);
 }
 
 .pair-list,
