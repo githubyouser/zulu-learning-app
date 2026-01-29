@@ -1,33 +1,33 @@
-name: Deploy to GitHub Pages
+name: Deploy PR previews
 
 on:
-  push:
-    branches:
-      - main
-      - master
-  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
 
-permissions:
-  contents: write
+concurrency: preview-${{ github.ref }}
 
 jobs:
-  deploy:
+  deploy-preview:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Prepare cache-busted assets
+        if: github.event.action != 'closed'
         run: |
           mkdir -p dist
           cp index.html styles.css app.js dist/
           sed -i "s/styles.css/styles.css?v=${{ github.sha }}/" dist/index.html
           sed -i "s/app.js/app.js?v=${{ github.sha }}/" dist/index.html
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
         with:
-          branch: gh-pages
-          folder: dist
-          clean-exclude: pr-preview/
-          force: false
+          source-dir: ./dist/
+          preview-branch: gh-pages
+          qr-code: true
