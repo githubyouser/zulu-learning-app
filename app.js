@@ -33,6 +33,8 @@ const elements = {
   pairList: document.getElementById("pairList"),
   bulkInput: document.getElementById("bulkInput"),
   bulkAddButton: document.getElementById("bulkAddButton"),
+  exportButton: document.getElementById("exportButton"),
+  exportStatus: document.getElementById("exportStatus"),
   streakValue: document.getElementById("streakValue"),
 };
 
@@ -268,6 +270,31 @@ const handleBulkAdd = () => {
   elements.bulkInput.value = "";
 };
 
+const getExportPairs = () =>
+  state.pairs.map(({ english, zulu }) => ({
+    english,
+    zulu,
+  }));
+
+const handleExport = () => {
+  const exportData = getExportPairs();
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "zulu-english-pairs.json";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+
+  elements.exportStatus.textContent = `Downloaded ${exportData.length} pair${
+    exportData.length === 1 ? "" : "s"
+  }.`;
+};
+
 const init = () => {
   loadPairs();
   renderPairList();
@@ -280,6 +307,7 @@ const init = () => {
   elements.nextButton.addEventListener("click", scheduleSession);
   elements.pairForm.addEventListener("submit", handlePairSubmit);
   elements.bulkAddButton.addEventListener("click", handleBulkAdd);
+  elements.exportButton.addEventListener("click", handleExport);
 };
 
 init();
