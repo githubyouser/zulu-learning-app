@@ -324,3 +324,15 @@ body {
     grid-column: span 1;
   }
 }
+
+
+.panel + .panel {
+  margin-top: 20px;
+}
+
+.module-status {
+  margin: 12px 0 0;
+  font-weight: 700;
+  color: var(--primary-dark);
+  min-height: 1.2rem;
+}
