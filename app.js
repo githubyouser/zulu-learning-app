@@ -1,6 +1,16 @@
 const STORAGE_KEY = "zulu-bloom-pairs";
 const STREAK_KEY = "zulu-bloom-streak";
 
+const DAYS_MODULE_PAIRS = [
+  { english: "Monday = UMsombuluko", zulu: "UMsombuluko ngisebenza ekhaya. (On Monday I work from home.)" },
+  { english: "Tuesday = ULwesibili", zulu: "ULwesibili sifunda isiZulu ndawonye. (On Tuesday we study Zulu together.)" },
+  { english: "Wednesday = ULwesithathu", zulu: "ULwesithathu ngivakashela umngani wami. (On Wednesday I visit my friend.)" },
+  { english: "Thursday = ULwesine", zulu: "ULwesine ngipheka ukudla kwakusihlwa. (On Thursday I cook dinner.)" },
+  { english: "Friday = ULwesihlanu", zulu: "ULwesihlanu siyadlala ngemuva komsebenzi. (On Friday we play after work.)" },
+  { english: "Saturday = UMgqibelo", zulu: "UMgqibelo siya emakethe ekuseni. (On Saturday we go to the market in the morning.)" },
+  { english: "Sunday = ISonto", zulu: "ISonto ngiyaphumula nomndeni wami. (On Sunday I rest with my family.)" },
+];
+
 const state = {
   pairs: [],
   sessionQueue: [],
@@ -28,6 +38,8 @@ const elements = {
   exportButton: document.getElementById("exportButton"),
   exportStatus: document.getElementById("exportStatus"),
   streakValue: document.getElementById("streakValue"),
+  loadDaysModuleButton: document.getElementById("loadDaysModuleButton"),
+  moduleStatus: document.getElementById("moduleStatus"),
 };
 
 const todayISO = () => new Date().toISOString().split("T")[0];
@@ -255,20 +267,50 @@ const handleReveal = () => {
   });
 };
 
+const createPair = (english, zulu) => ({
+  id: crypto.randomUUID(),
+  english,
+  zulu,
+  interval: 0,
+  ease: 2.4,
+  due: Date.now(),
+  createdAt: Date.now(),
+});
+
 const addPair = (english, zulu) => {
-  const pair = {
-    id: crypto.randomUUID(),
-    english,
-    zulu,
-    interval: 0,
-    ease: 2.4,
-    due: Date.now(),
-    createdAt: Date.now(),
-  };
-  state.pairs.unshift(pair);
+  state.pairs.unshift(createPair(english, zulu));
   persistPairs();
   renderPairList();
   scheduleSession();
+};
+
+const addPairsBatch = (pairs) => {
+  const existingKeys = new Set(
+    state.pairs.map((pair) => `${pair.english}|||${pair.zulu}`),
+  );
+
+  const newPairs = pairs
+    .filter(({ english, zulu }) => english && zulu)
+    .filter(({ english, zulu }) => !existingKeys.has(`${english}|||${zulu}`))
+    .map(({ english, zulu }) => createPair(english, zulu));
+
+  if (newPairs.length === 0) {
+    return 0;
+  }
+
+  state.pairs.unshift(...newPairs);
+  persistPairs();
+  renderPairList();
+  scheduleSession();
+  return newPairs.length;
+};
+
+const handleLoadDaysModule = () => {
+  const addedCount = addPairsBatch(DAYS_MODULE_PAIRS);
+  elements.moduleStatus.textContent =
+    addedCount === 0
+      ? "Days module already loaded. No new pairs were added."
+      : `Added ${addedCount} day-of-the-week practice pair${addedCount === 1 ? "" : "s"}.`;
 };
 
 const handlePairSubmit = (event) => {
@@ -336,6 +378,7 @@ const init = async () => {
   elements.pairForm.addEventListener("submit", handlePairSubmit);
   elements.bulkAddButton.addEventListener("click", handleBulkAdd);
   elements.exportButton.addEventListener("click", handleExport);
+  elements.loadDaysModuleButton.addEventListener("click", handleLoadDaysModule);
 };
 
 init();
