@@ -11,6 +11,38 @@ const DAYS_MODULE_PAIRS = [
   { english: "Sunday = ISonto", zulu: "ISonto ngiyaphumula nomndeni wami. (On Sunday I rest with my family.)" },
 ];
 
+
+const TIME_MODULE_PAIRS = [
+  {
+    english: "What time is it? = Kungasiphi isikhathi?",
+    zulu: "Kungasiphi isikhathi manje? (What time is it now?)",
+  },
+  {
+    english: "It is one o'clock = Ngehora lokuqala",
+    zulu: "Ngehora lokuqala ntambama. (It is one o'clock in the afternoon.)",
+  },
+  {
+    english: "It is half past two = Ngehora lesibili nesigamu",
+    zulu: "Ngehora lesibili nesigamu manje. (It is half past two now.)",
+  },
+  {
+    english: "It is quarter past three = Ngehora lesithathu nekota",
+    zulu: "Sihlangana ngehora lesithathu nekota. (We meet at quarter past three.)",
+  },
+  {
+    english: "It is quarter to five = Sekusele ikota ngaphambi kwehora lesihlanu",
+    zulu: "Sekusele ikota ngaphambi kwehora lesihlanu. (It is quarter to five.)",
+  },
+  {
+    english: "I wake up at six o'clock = Ngivuka ngehora lesithupha",
+    zulu: "Ngivuka ngehora lesithupha ekuseni. (I wake up at six in the morning.)",
+  },
+  {
+    english: "The bus leaves at seven thirty = Ibhasi lihamba ngehora lesikhombisa namashumi amathathu",
+    zulu: "Ibhasi lihamba ngehora lesikhombisa namashumi amathathu. (The bus leaves at seven thirty.)",
+  },
+];
+
 const state = {
   pairs: [],
   sessionQueue: [],
@@ -40,6 +72,8 @@ const elements = {
   streakValue: document.getElementById("streakValue"),
   loadDaysModuleButton: document.getElementById("loadDaysModuleButton"),
   moduleStatus: document.getElementById("moduleStatus"),
+  loadTimeModuleButton: document.getElementById("loadTimeModuleButton"),
+  timeModuleStatus: document.getElementById("timeModuleStatus"),
 };
 
 const todayISO = () => new Date().toISOString().split("T")[0];
@@ -313,6 +347,15 @@ const handleLoadDaysModule = () => {
       : `Added ${addedCount} day-of-the-week practice pair${addedCount === 1 ? "" : "s"}.`;
 };
 
+
+const handleLoadTimeModule = () => {
+  const addedCount = addPairsBatch(TIME_MODULE_PAIRS);
+  elements.timeModuleStatus.textContent =
+    addedCount === 0
+      ? "Time module already loaded. No new pairs were added."
+      : `Added ${addedCount} telling-time practice pair${addedCount === 1 ? "" : "s"}.`;
+};
+
 const handlePairSubmit = (event) => {
   event.preventDefault();
   const english = elements.englishInput.value.trim();
@@ -379,6 +422,7 @@ const init = async () => {
   elements.bulkAddButton.addEventListener("click", handleBulkAdd);
   elements.exportButton.addEventListener("click", handleExport);
   elements.loadDaysModuleButton.addEventListener("click", handleLoadDaysModule);
+  elements.loadTimeModuleButton.addEventListener("click", handleLoadTimeModule);
 };
 
 init();
